@@ -17,4 +17,8 @@ use App\Http\Controllers\CarController;
 
 Route::get('/cars/{car}',[CarController::class,'show'])->name('cars.show');
 
-Route::get('/cars',[CarController::class,'show'])->name('cars.index');
+Route::get('/cars',[CarController::class,'index'])->name('cars.index');
+
+Route::post('/cars/create',[CarController::class,'create'])->name('cars.create');
+
+Route::delete('/cars/{car}', [CarController::class, 'destroy'])->name('cars.destroy');

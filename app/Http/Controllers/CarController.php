@@ -18,7 +18,6 @@ class CarController extends Controller
     public function index()
     {
         $car=DB::select('select * from cars');
-        return view('mostrarCoche', compact('listaCoches')); 
         return view('cars.index',compact('car'));
     }
 
@@ -34,9 +33,14 @@ class CarController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $datos_frm = $request->except('_token','_method');
+        DB::table("cars")->insertGetId(['make'=>$datos_frm['make'],'model'=>$datos_frm['model'],'produced_on'=>$datos_frm['produced_on']]);
+        return redirect('/cars');
+        /*$car = Request::all();
+        Car::create($car); // <-- Change this
+        return $car;*/
     }
 
     /**
@@ -92,6 +96,7 @@ class CarController extends Controller
      
     public function destroy(Car $car)
     {
-        //
+        $car = DB::select('delete from cars where id = ?', [$car->id]);
+        return redirect('/cars');
     }
 }
